@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram</title>
+  <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/yG/r/De-Dwpd5CHc.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── PAGE WRAPPER ──────────────────────────────────────── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px 12px;
+      width: 100%;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      max-width: 935px;
+      width: 100%;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       LEFT – PHONE MOCKUP
+    ═══════════════════════════════════════════════════════ */
+    .phone-col {
+      flex: 0 0 380px;
+      height: 580px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Outer phone shell */
+    .phone {
+      width: 250px;
+      height: 510px;
+      background: #1c1c1e;
+      border-radius: 46px;
+      position: relative;
+      box-shadow:
+        0 0 0 1px #3a3a3c,
+        0 0 0 3px #1c1c1e,
+        0 30px 80px rgba(0,0,0,.45),
+        0 10px 30px rgba(0,0,0,.25);
+      flex-shrink: 0;
+    }
+
+    /* Right side button */
+    .phone::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 110px;
+      width: 4px;
+      height: 64px;
+      background: #3a3a3c;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Left volume + silent buttons */
+    .phone::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 80px;
+      width: 4px;
+      height: 32px;
+      background: #3a3a3c;
+      border-radius: 3px 0 0 3px;
+      box-shadow: 0 46px 0 #3a3a3c, 0 84px 0 #3a3a3c;
+    }
+
+    /* Screen */
+    .screen {
+      position: absolute;
+      inset: 8px;
+      border-radius: 38px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88px;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 30;
+    }
+
+    /* ── CAROUSEL ─────────────────────────────────────── */
+    .carousel {
+      position: absolute;
+      inset: 0;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    /* 4 slides × 5 s each = 20 s cycle */
+    .slide:nth-child(1) { animation: igfade 20s  0s infinite; }
+    .slide:nth-child(2) { animation: igfade 20s  5s infinite; }
+    .slide:nth-child(3) { animation: igfade 20s 10s infinite; }
+    .slide:nth-child(4) { animation: igfade 20s 15s infinite; }
+
+    @keyframes igfade {
+      0%   { opacity: 0; }
+      6%   { opacity: 1; }
+      19%  { opacity: 1; }
+      25%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* ─── SLIDE 1 : FEED ──────────────────────────────── */
+    .feed { background: #fafafa; }
+
+    .s-header {
+      height: 50px;
+      background: #fff;
+      border-bottom: 1px solid #dbdbdb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      padding-top: 14px; /* push below island */
+    }
+
+    .s-logo {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 20px;
+      color: #262626;
+      line-height: 1;
+    }
+
+    .s-icons { display: flex; gap: 14px; align-items: center; }
+
+    /* Stories strip */
+    .stories {
+      display: flex;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      border-bottom: 1px solid #dbdbdb;
+      overflow: hidden;
+    }
+
+    .s-story { display: flex; flex-direction: column; align-items: center; gap: 3px; flex-shrink: 0; }
+
+    .s-ring {
+      width: 46px; height: 46px; border-radius: 50%;
+      padding: 2px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .s-ring.gradient { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .s-ring.add       { background: #fff; border: 1.5px solid #dbdbdb; }
+
+    .s-avatar {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    .s-name { font-size: 8px; color: #262626; width: 46px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Post */
+    .post { background: #fff; margin-top: 4px; }
+
+    .post-top { display: flex; align-items: center; padding: 7px 10px; gap: 8px; }
+
+    .p-av {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid transparent;
+      background: linear-gradient(#fff,#fff) padding-box,
+                  linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888) border-box;
+    }
+
+    .p-av-inner { width: 100%; height: 100%; border-radius: 50%; }
+
+    .p-name { font-size: 10px; font-weight: 600; color: #262626; flex: 1; }
+    .p-dot  { font-size: 18px; color: #262626; line-height: 1; }
+
+    .p-img  { width: 100%; height: 200px; object-fit: cover; display: block; }
+
+    .p-actions { display: flex; align-items: center; gap: 14px; padding: 6px 10px 2px; }
+
+    .p-likes   { font-size: 9px; font-weight: 600; color: #262626; padding: 0 10px; }
+    .p-caption { font-size: 9px; color: #262626; padding: 1px 10px 8px; }
+    .p-caption b { font-weight: 700; }
+
+    /* Bottom nav */
+    .b-nav {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 50px; background: #fff; border-top: 1px solid #dbdbdb;
+      display: flex; align-items: center; justify-content: space-around;
+      padding: 0 4px 6px;
+    }
+
+    /* ─── SLIDE 2 : REELS ─────────────────────────────── */
+    .reels-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(170deg,#090c14 0%,#1a2340 35%,#2d1b4e 65%,#4a1238 100%);
+    }
+
+    .reels-glow {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 65% 35%, rgba(255,160,80,.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 25% 65%, rgba(80,120,255,.25) 0%, transparent 55%);
+    }
+
+    .reels-top {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 12px 0;
+    }
+
+    .reels-label { font-size: 16px; font-weight: 700; color: #fff; }
+
+    .r-side {
+      position: absolute; right: 10px; bottom: 70px;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+
+    .r-action { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .r-count  { font-size: 9px; font-weight: 600; color: #fff; }
+
+    .r-disc { width: 34px; height: 34px; border-radius: 8px; border: 2px solid rgba(255,255,255,.7); }
+
+    .r-info {
+      position: absolute; left: 10px; right: 56px; bottom: 70px;
+    }
+
+    .r-user    { font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .r-caption { font-size: 9px; color: rgba(255,255,255,.88); line-height: 1.45; }
+    .r-music   { font-size: 9px; color: rgba(255,255,255,.75); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+
+    /* ─── SLIDE 3 : EXPLORE ───────────────────────────── */
+    .explore { background: #fff; }
+
+    .e-search {
+      margin: 8px; height: 30px;
+      background: #efefef; border-radius: 10px;
+      display: flex; align-items: center; gap: 6px; padding: 0 10px;
+    }
+
+    .e-search-text { font-size: 10px; color: #8e8e8e; }
+
+    .e-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px; padding: 0 2px;
+    }
+
+    .e-cell { aspect-ratio: 1; overflow: hidden; }
+    .e-cell:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; height: 126px; }
+    .e-cell div { width: 100%; height: 100%; }
+
+    /* ─── SLIDE 4 : PROFILE ───────────────────────────── */
+    .profile { background: #fff; }
+
+    .prof-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 12px 8px;
+      border-bottom: none;
+    }
+
+    .prof-handle { font-size: 13px; font-weight: 700; color: #262626; }
+
+    .prof-top { display: flex; align-items: center; padding: 8px 12px; gap: 16px; }
+
+    .prof-av {
+      width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+      padding: 2px;
+      background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+    }
+
+    .prof-av-inner { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #fff; }
+
+    .prof-stats { flex: 1; display: flex; justify-content: space-around; }
+    .stat { display: flex; flex-direction: column; align-items: center; }
+    .stat-n { font-size: 13px; font-weight: 700; color: #262626; }
+    .stat-l { font-size: 9px; color: #262626; }
+
+    .prof-name { padding: 0 12px; font-size: 10px; font-weight: 700; color: #262626; }
+    .prof-bio  { padding: 2px 12px 6px; font-size: 9px; color: #262626; line-height: 1.4; }
+
+    .prof-follow {
+      margin: 4px 12px 10px;
+      height: 27px; background: #0095f6; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: #fff;
+    }
+
+    .prof-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .prof-cell { aspect-ratio: 1; overflow: hidden; }
+    .prof-cell div { width: 100%; height: 100%; }
+
+    /* ═══════════════════════════════════════════════════════
+       RIGHT – LOGIN PANEL
+    ═══════════════════════════════════════════════════════ */
+    .login-col {
+      flex: 0 0 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── MAIN CARD ──────────────────────────────────────── */
+    .card {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 1px;
+      padding: 40px 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── INSTAGRAM WORDMARK ─────────────────────────────── */
+    /*
+      The real Instagram wordmark is loaded as a CSS sprite from
+      Instagram's CDN. The element is 175×51 px; the sprite is
+      positioned to show the wordmark glyph.
+    */
+    .ig-logo {
+      background-image: url("https://static.cdninstagram.com/rsrc.php/v4/yr/r/xcgR1yOLL2N.png");
+      background-position: 0px -440px;
+      background-size: auto;
+      background-repeat: no-repeat;
+      width: 175px;
+      height: 51px;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    /* Fallback font (shown via JS if CDN image fails) */
+    .ig-logo-font {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 36px;
+      color: #262626;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      display: none;
+      margin-bottom: 24px;
+    }
+
+    /* ── FORM ────────────────────────────────────────────── */
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field {
+      position: relative;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+      padding: 14px 10px 7px 10px;
+      display: flex;
+      transition: border-color .1s;
+    }
+
+    .field:focus-within { border-color: #a8a8a8; }
+
+    .field input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 12px;
+      color: #262626;
+      font-family: inherit;
+      padding-right: 40px;
+    }
+
+    .field label {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #8e8e8e;
+      pointer-events: none;
+      transition: all .1s ease;
+      white-space: nowrap;
+    }
+
+    .field input:not(:placeholder-shown) + label,
+    .field input:focus + label {
+      top: 8px;
+      font-size: 10px;
+      transform: none;
+    }
+
+    .show-pw {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 600;
+      color: #262626;
+      cursor: pointer;
+      user-select: none;
+      display: none;
+    }
+
+    /* ── LOGIN BUTTON ───────────────────────────────────── */
+    .btn-login {
+      margin-top: 2px;
+      width: 100%;
+      padding: 7px;
+      background: #0095f6;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity .1s;
+    }
+
+    .btn-login.on { opacity: 1; pointer-events: auto; }
+    .btn-login.on:hover { opacity: .85; }
+
+    /* ── OR ─────────────────────────────────────────────── */
+    .or {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      margin: 18px 0;
+    }
+
+    .or-line { flex: 1; height: 1px; background: #dbdbdb; }
+    .or-word { font-size: 13px; font-weight: 600; color: #8e8e8e; letter-spacing: 1px; }
+
+    /* ── FACEBOOK ───────────────────────────────────────── */
+    .fb-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: #385185;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 0;
+    }
+
+    .fb-btn:hover { opacity: .7; }
+
+    /* ── FORGOT ─────────────────────────────────────────── */
+    .forgot { font-size: 12px; color: #00376b; text-decoration: none; }
+    .forgot:hover { opacity: .7; }
+
+    /* ── SIGN UP CARD ───────────��───────────────────────── */
+    .signup-card {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #262626;
+    }
+
+    .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
+    .signup-card a:hover { opacity: .7; }
+
+    /* ── GET THE APP ────────────────────────────────────── */
+    .get-app {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .get-app p { font-size: 14px; color: #262626; margin-bottom: 16px; }
+
+    .app-badges { display: flex; justify-content: center; gap: 8px; }
+    .app-badges img { height: 40px; border-radius: 4px; }
+
+    /* ═══════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════ */
+    footer {
+      width: 100%;
+      max-width: 935px;
+      padding: 16px 20px 52px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+      margin-bottom: 14px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: #737373;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover { text-decoration: underline; }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom select {
+      background: none;
+      border: none;
+      font-size: 12px;
+      color: #737373;
+      cursor: pointer;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .footer-copy { font-size: 12px; color: #737373; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .phone-col { display: none; }
+      .row { justify-content: center; }
+      .login-col { flex: 0 0 100%; max-width: 350px; }
+      .card { border: none; background: transparent; }
+      .signup-card { border: none; background: transparent; }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <div class="row">
+
+    <!-- ═══════════════════════════════════════════════
+         LEFT : PHONE MOCKUP WITH CAROUSEL
+    ═══════════════════════════════════════════════ -->
+    <div class="phone-col">
+      <div class="phone">
+        <div class="screen">
+          <div class="dynamic-island"></div>
+          <div class="carousel">
+
+            <!-- ── SLIDE 1 : FEED ───────────────────── -->
+            <div class="slide feed">
+              <!-- Header -->
+              <div class="s-header">
+                <span class="s-logo">Instagram</span>
+                <div class="s-icons">
+                  <!-- Heart -->
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                  <!-- Messenger -->
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Stories -->
+              <div class="stories">
+                <div class="s-story">
+                  <div class="s-ring add" style="position:relative;">
+                    <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#c8c8c8,#e8e8e8);display:flex;align-items:center;justify-content:center;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0095f6" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </div>
+                  </div>
+                  <span class="s-name">Your story</span>
+                </div>
+                <div class="s-story">
+                  <div class="s-ring gradient">
+                    <div class="s-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c);"></div>
+                  </div>
+                  <span class="s-name">alex_m</span>
+                </div>
+                <div class="s-story">
+                  <div class="s-ring gradient">
+                    <div class="s-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe);"></div>
+                  </div>
+                  <span class="s-name">sarah.j</span>
+                </div>
+                <div class="s-story">
+                  <div class="s-ring gradient">
+                    <div class="s-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7);"></div>
+                  </div>
+                  <span class="s-name">mike_p</span>
+                </div>
+                <div class="s-story">
+                  <div class="s-ring gradient">
+                    <div class="s-avatar" style="background:linear-gradient(135deg,#fa709a,#fee140);"></div>
+                  </div>
+                  <span class="s-name">luna</span>
+                </div>
+              </div>
+
+              <!-- Post -->
+              <div class="post">
+                <div class="post-top">
+                  <div class="p-av">
+                    <div class="p-av-inner" style="background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);"></div>
+                  </div>
+                  <span class="p-name">nature_photos</span>
+                  <span class="p-dot">···</span>
+                </div>
+                <div class="p-img" style="height:196px;background:linear-gradient(160deg,#667eea 0%,#764ba2 60%,#c471ed 100%);"></div>
+                <div class="p-actions">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </div>
+                <div class="p-likes">1,247 likes</div>
+                <div class="p-caption"><b>nature_photos</b> Golden hour magic ✨ Swipe to see more</div>
+              </div>
+
+              <!-- Bottom Nav -->
+              <div class="b-nav">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#262626"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22" stroke="#fff" stroke-width="1.5" fill="none"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);border:2px solid #262626;"></div>
+              </div>
+            </div>
+            <!-- /SLIDE 1 -->
+
+            <!-- ── SLIDE 2 : REELS ──────────────────── -->
+            <div class="slide" style="background:#000;">
+              <div class="reels-bg"></div>
+              <div class="reels-glow"></div>
+
+              <!-- Top bar -->
+              <div class="reels-top">
+                <span class="reels-label">Reels</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="white"/></svg>
+              </div>
+
+              <!-- Side actions -->
+              <div class="r-side">
+                <div class="r-action">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span class="r-count">24.5K</span>
+                </div>
+                <div class="r-action">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span class="r-count">1,843</span>
+                </div>
+                <div class="r-action">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span class="r-count">Share</span>
+                </div>
+                <div class="r-disc" style="background:linear-gradient(135deg,#4facfe,#00f2fe);"></div>
+              </div>
+
+              <!-- Caption -->
+              <div class="r-info">
+                <div class="r-user">@travel.world</div>
+                <div class="r-caption">Santorini at golden hour 🌅 Nothing beats this view — which sunset is your favourite?</div>
+                <div class="r-music">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                  Sunset Dreams · Chill Vibes
+                </div>
+              </div>
+
+              <!-- Bottom nav (dark) -->
+              <div class="b-nav" style="background:transparent;border-top:none;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#4facfe,#00f2fe);border:1.5px solid rgba(255,255,255,.6);"></div>
+              </div>
+            </div>
+            <!-- /SLIDE 2 -->
+
+            <!-- ── SLIDE 3 : EXPLORE ─────────────────── -->
+            <div class="slide explore" style="padding-top:48px;">
+              <!-- Search bar -->
+              <div class="e-search">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8e8e8e" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span class="e-search-text">Search</span>
+              </div>
+
+              <!-- Photo grid -->
+              <div class="e-grid">
+                <div class="e-cell" style="grid-column:span 2;grid-row:span 2;height:128px;"><div style="height:128px;background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);"></div></div>
+                <div class="e-cell"><div style="height:62px;background:linear-gradient(135deg,#4facfe,#00f2fe);"></div></div>
+                <div class="e-cell"><div style="height:62px;background:linear-gradient(135deg,#43e97b,#38f9d7);"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#fa709a,#fee140);"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#fccb90,#d57eeb);"></div></div>
+                <div class="e-cell" style="grid-column:span 2;"><div style="background:linear-gradient(135deg,#89f7fe,#66a6ff);height:62px;"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#fddb92,#d1fdff);"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#a1c4fd,#c2e9fb);"></div></div>
+                <div class="e-cell"><div style="background:linear-gradient(135deg,#fd7043,#ffb74d);"></div></div>
+              </div>
+
+              <div class="b-nav">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#262626"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#fff" stroke-width="1.5"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+              </div>
+            </div>
+            <!-- /SLIDE 3 -->
+
+            <!-- ── SLIDE 4 : PROFILE ─────────────────── -->
+            <div class="slide profile" style="padding-top:44px;">
+              <!-- Header -->
+              <div class="prof-hdr">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                <span class="prof-handle">travel_adventures</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              </div>
+
+              <!-- Stats row -->
+              <div class="prof-top">
+                <div class="prof-av">
+                  <div class="prof-av-inner" style="background:linear-gradient(135deg,#4facfe,#00f2fe);"></div>
+                </div>
+                <div class="prof-stats">
+                  <div class="stat"><span class="stat-n">247</span><span class="stat-l">posts</span></div>
+                  <div class="stat"><span class="stat-n">12.4K</span><span class="stat-l">followers</span></div>
+                  <div class="stat"><span class="stat-n">891</span><span class="stat-l">following</span></div>
+                </div>
+              </div>
+              <div class="prof-name">Alex Wanderer</div>
+              <div class="prof-bio">✈️ Exploring the world one city at a time<br>📸 Photographer · 50+ countries</div>
+              <div class="prof-follow">Follow</div>
+
+              <!-- Photo grid -->
+              <div class="prof-grid">
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#667eea,#764ba2);"></div></div>
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#f093fb,#f5576c);"></div></div>
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#4facfe,#00f2fe);"></div></div>
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#43e97b,#38f9d7);"></div></div>
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#fa709a,#fee140);"></div></div>
+                <div class="prof-cell"><div style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);"></div></div>
+              </div>
+
+              <div class="b-nav">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#4facfe,#00f2fe);border:2px solid #262626;"></div>
+              </div>
+            </div>
+            <!-- /SLIDE 4 -->
+
+          </div><!-- /carousel -->
+        </div><!-- /screen -->
+      </div><!-- /phone -->
+    </div><!-- /phone-col -->
+
+
+    <!-- ═══════════════════════════════════════════════
+         RIGHT : LOGIN FORM
+    ═══════════════════════════════════════════════ -->
+    <div class="login-col">
+
+      <!-- Main card -->
+      <div class="card">
+
+        <!-- Instagram Wordmark – real CDN sprite -->
+        <i class="ig-logo" id="igLogo" role="img" aria-label="Instagram"></i>
+        <!-- Font fallback (shown by JS if sprite fails) -->
+        <span class="ig-logo-font" id="igLogoFont">Instagram</span>
+
+        <form onsubmit="return false;" autocomplete="on">
+          <!-- Username -->
+          <div class="field">
+            <input type="text" id="username" name="username" placeholder=" "
+                   autocomplete="username" oninput="syncBtn()" />
+            <label for="username">Phone number, username, or email</label>
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <input type="password" id="password" name="password" placeholder=" "
+                   autocomplete="current-password" oninput="syncBtn(); syncToggle()" />
+            <label for="password">Password</label>
+            <span class="show-pw" id="pwToggle" onclick="togglePw()">Show</span>
+          </div>
+
+          <button class="btn-login" id="loginBtn" type="submit" disabled>Log in</button>
+        </form>
+
+        <!-- OR divider -->
+        <div class="or">
+          <div class="or-line"></div>
+          <span class="or-word">OR</span>
+          <div class="or-line"></div>
+        </div>
+
+        <!-- Facebook -->
+        <button class="fb-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#385185">
+            <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+          </svg>
+          Log in with Facebook
+        </button>
+
+        <a class="forgot" href="#">Forgot password?</a>
+      </div><!-- /card -->
+
+      <!-- Sign up card -->
+      <div class="signup-card">
+        Don't have an account? <a href="#">Sign up</a>
+      </div>
+
+      <!-- Get the app -->
+      <div class="get-app">
+        <p>Get the app.</p>
+        <div class="app-badges">
+          <!-- Real Instagram CDN app badge URLs -->
+          <a href="#" target="_blank">
+            <img src="https://static.cdninstagram.com/rsrc.php/v4/yz/r/c5Rp7Ym-Klz.png"
+                 alt="Get it on Google Play"
+                 onerror="this.parentElement.innerHTML='<span style=\'font-size:11px;border:1px solid #ccc;border-radius:6px;padding:6px 12px;\'>▶ Google Play</span>'" />
+          </a>
+          <a href="#" target="_blank">
+            <img src="https://static.cdninstagram.com/rsrc.php/v4/yu/r/EHY6QnZYdNX.png"
+                 alt="Get it from Microsoft"
+                 onerror="this.parentElement.innerHTML='<span style=\'font-size:11px;border:1px solid #ccc;border-radius:6px;padding:6px 12px;\'>⊞ Microsoft</span>'" />
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /login-col -->
+  </div><!-- /row -->
+</main>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-links">
+    <a href="#">Meta</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+    <a href="#">Jobs</a>
+    <a href="#">Help</a>
+    <a href="#">API</a>
+    <a href="#">Privacy</a>
+    <a href="#">Consumer Health Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Locations</a>
+    <a href="#">Instagram Lite</a>
+    <a href="#">Threads</a>
+    <a href="#">Contact Uploading &amp; Non-Users</a>
+    <a href="#">Meta Verified</a>
+  </div>
+  <div class="footer-bottom">
+    <select aria-label="Select language">
+      <option>English</option>
+      <option>العربية</option>
+      <option>বাংলা</option>
+      <option>中文(简体)</option>
+      <option>中文(繁體)</option>
+      <option>��eština</option>
+      <option>Dansk</option>
+      <option>Deutsch</option>
+      <option>Ελληνικά</option>
+      <option>Español</option>
+      <option>Español (España)</option>
+      <option>Suomi</option>
+      <option>Français</option>
+      <option>हिन्दी</option>
+      <option>Magyar</option>
+      <option>Bahasa Indonesia</option>
+      <option>Italiano</option>
+      <option>日本語</option>
+      <option>한국어</option>
+      <option>Malay</option>
+      <option>Norsk</option>
+      <option>Nederlands</option>
+      <option>Polski</option>
+      <option>Português (Brasil)</option>
+      <option>Português (Portugal)</option>
+      <option>Русский</option>
+      <option>Svenska</option>
+      <option>Filipino</option>
+      <option>Türkçe</option>
+      <option>Tiếng Việt</option>
+    </select>
+    <span class="footer-copy">&copy; 2025 Instagram from Meta</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Detect whether the CDN sprite loaded ── */
+  (function () {
+    var tester = new Image();
+    tester.onload = function () { /* sprite loaded, keep the <i> */ };
+    tester.onerror = function () {
+      document.getElementById('igLogo').style.display = 'none';
+      document.getElementById('igLogoFont').style.display = 'block';
+    };
+    tester.src = 'https://static.cdninstagram.com/rsrc.php/v4/yr/r/xcgR1yOLL2N.png';
+  })();
+
+  /* ── Enable / disable Login button ── */
+  function syncBtn() {
+    var u = document.getElementById('username').value.trim();
+    var p = document.getElementById('password').value;
+    var btn = document.getElementById('loginBtn');
+    if (u && p) {
+      btn.classList.add('on');
+      btn.disabled = false;
+    } else {
+      btn.classList.remove('on');
+      btn.disabled = true;
+    }
+  }
+
+  /* ── Show / hide password toggle ── */
+  function syncToggle() {
+    var p = document.getElementById('password').value;
+    document.getElementById('pwToggle').style.display = p ? 'block' : 'none';
+  }
+
+  function togglePw() {
+    var pw = document.getElementById('password');
+    var tg = document.getElementById('pwToggle');
+    if (pw.type === 'password') { pw.type = 'text';     tg.textContent = 'Hide'; }
+    else                        { pw.type = 'password'; tg.textContent = 'Show'; }
+  }
+</script>
+
+</body>
+</html>
